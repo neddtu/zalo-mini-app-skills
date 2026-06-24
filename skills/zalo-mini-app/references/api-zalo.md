@@ -7,8 +7,8 @@
 ```ts
 import { followOA, unfollowOA } from "zmp-sdk/apis";
 
-await followOA({ oaId: "your-oa-id" });
-await unfollowOA({ oaId: "your-oa-id" });
+await followOA({ id: "your-oa-id" });
+await unfollowOA({ id: "your-oa-id" });
 ```
 
 ### interactOA
@@ -24,7 +24,10 @@ await interactOA({ oaId: "your-oa-id" });
 ```ts
 import { viewOAQr } from "zmp-sdk/apis";
 
-await viewOAQr({ oaId: "your-oa-id" });
+await viewOAQr({
+  id: "your-oa-id",
+  displayName: "Your OA"
+});
 ```
 
 ## Chat & Contact
@@ -50,7 +53,7 @@ await openPhone({ phoneNumber: "0900000000" });
 await openSMS({ phoneNumber: "0900000000", content: "Hello" });
 ```
 
-Verify exact parameter names in installed SDK types.
+Verify exact parameter names in installed SDK types, especially when supporting older SDK versions.
 
 ## Profile & Social
 
@@ -70,7 +73,7 @@ await openProfile({
 ```ts
 import { openProfilePicker } from "zmp-sdk/apis";
 
-const { users } = await openProfilePicker({ maxSelection: 5 });
+const { users } = await openProfilePicker({ maxProfile: 5 });
 ```
 
 ### openShareSheet

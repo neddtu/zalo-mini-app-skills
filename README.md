@@ -4,15 +4,16 @@ Build Zalo Mini Apps - lightweight web apps running inside the Zalo super-app pl
 
 ## What's Updated
 
-- **SDK contract fixes** - `getPhoneNumber` now documents the token-based backend exchange flow instead of returning phone number directly.
+- **SDK contract fixes** - `getPhoneNumber` and `getLocation` document token-based backend exchange flows instead of direct sensitive data returns.
 - **Media API fixes** - `openMediaPicker` now uses current parameter names like `maxSelectItem`, current media types, and `{ data }` response shape.
-- **Local File Storage** - Added `isSupportLFS`, `saveFile`, `getFileInfo`, `getSavedFileList`, `removeSavedFile`.
+- **Local File Storage** - Uses current `LFSStorage` namespace with `isSupportLFS`, `saveFile`, `getFileInfo`, `getSavedFileList`, `removeSavedFile`.
 - **Payment** - Added Checkout / Payment integration guide: create order, callbacks, status checks, refund, payment methods.
 - **Open APIs** - Added partner/open API coverage: webhook, signature verification, partner deployment/publish APIs, KYB references.
 - **eKYC** - Added high-level eKYC API map and secure integration notes.
 - **ZaUI refresh** - Notes current docs track ZaUI 1.11.x, with container/layout utilities like `Box`, `Center`, `Stack`, `Grid`, `Cluster`, `ZBox`.
 - **DevTools refresh** - Notes both CLI and Zalo Mini App Extension flows.
 - **API taxonomy refresh** - Adds newer API groups: permission, biometric auth, advertising, widgets, local file storage, documents.
+- **Zalo/OA and biometric fixes** - Updates `followOA`, `viewOAQr`, `openProfilePicker`, camera permission, network type, and biometric auth examples to current docs.
 
 ## Installation
 

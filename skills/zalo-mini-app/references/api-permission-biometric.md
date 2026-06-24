@@ -44,20 +44,30 @@ Docs include biometric integration APIs:
 - `checkStateBioAuthentication`
 - `openBioAuthentication`
 
+Biometric authentication is a controlled/partner-sensitive flow. Current `openBioAuthentication` requires one-time `secretData` generated for the authentication event; do not use old examples with `reason`.
+
 ```ts
 import { checkStateBioAuthentication, openBioAuthentication } from "zmp-sdk/apis";
 
-const state = await checkStateBioAuthentication({});
-if (state?.available) {
+try {
+  const { bioState } = await checkStateBioAuthentication({});
+  // Persist bioState and compare on later logins to detect biometric changes.
   const result = await openBioAuthentication({
-    reason: "Confirm this action"
+    secretData: "<one-time-secret-data-from-server>",
+    ui: {
+      title: "Biometric login",
+      subTitle: "Use biometrics to confirm this action",
+      negativeButtonText: "Cancel"
+    }
   });
+} catch (error) {
+  // Device does not support biometric auth, has no biometric lock, or API failed.
 }
 ```
 
 Security notes:
 
-- Biometrics confirm local user presence; they are not backend identity proof by themselves.
+- Biometrics confirm local user presence; they are not backend identity proof by themselves. Pair `secretData` with backend verification/webhook flow where required.
 - Pair biometric success with server-side session/auth checks for sensitive actions.
 - Provide fallback PIN/password/OTP if product requires access recovery.
 

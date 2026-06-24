@@ -9,34 +9,34 @@ Official docs: https://miniapp.zaloplatforms.com/documents/api/localFileSystem/
 Docs note LFS support begins around `zmp-sdk@2.51.0` and newer Zalo app versions. Check support at runtime.
 
 ```ts
-import { isSupportLFS } from "zmp-sdk/apis";
+import { LFSStorage } from "zmp-sdk/apis";
 
-const { isSupported } = await isSupportLFS({});
-if (!isSupported) {
+const { support } = await LFSStorage.isSupportLFS();
+if (!support) {
   // fallback: remote URL, normal cache, or ask user to update Zalo
 }
 ```
 
-Verify exact return shape in installed SDK types.
+Current docs expose LFS APIs under `LFSStorage`. Verify installed SDK types when supporting old package versions.
 
 ## saveFile
 
 Save a temporary/downloaded file into local file storage.
 
 ```ts
-import { saveFile } from "zmp-sdk/apis";
+import { LFSStorage } from "zmp-sdk/apis";
 
-const saved = await saveFile({
-  tempFilePath: "local-temp-path-or-downloaded-path"
+const { savedPath } = await LFSStorage.saveFile({
+  filePath: "local-temp-path-or-downloaded-path"
 });
 ```
 
 ## getFileInfo
 
 ```ts
-import { getFileInfo } from "zmp-sdk/apis";
+import { LFSStorage } from "zmp-sdk/apis";
 
-const info = await getFileInfo({
+const info = await LFSStorage.getFileInfo({
   filePath: "saved-file-path"
 });
 ```
@@ -44,17 +44,17 @@ const info = await getFileInfo({
 ## getSavedFileList
 
 ```ts
-import { getSavedFileList } from "zmp-sdk/apis";
+import { LFSStorage } from "zmp-sdk/apis";
 
-const list = await getSavedFileList({});
+const { list } = await LFSStorage.getSavedFileList({});
 ```
 
 ## removeSavedFile
 
 ```ts
-import { removeSavedFile } from "zmp-sdk/apis";
+import { LFSStorage } from "zmp-sdk/apis";
 
-await removeSavedFile({
+await LFSStorage.removeSavedFile({
   filePath: "saved-file-path"
 });
 ```

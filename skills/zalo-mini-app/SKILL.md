@@ -84,6 +84,29 @@ const { token } = await getPhoneNumber({});
 
 Do **not** expect `getPhoneNumber` to return `{ number }` in current docs.
 
+
+### Location: Token Flow, Not Direct Coordinates
+
+```ts
+import { getLocation } from "zmp-sdk/apis";
+
+const { token } = await getLocation();
+// Send token to backend for Zalo Open API exchange.
+```
+
+Do **not** expect `getLocation` to return direct `{ latitude, longitude }` in current docs.
+
+### Local File Storage: LFSStorage Namespace
+
+```ts
+import { LFSStorage } from "zmp-sdk/apis";
+
+const { support } = await LFSStorage.isSupportLFS();
+const { savedPath } = await LFSStorage.saveFile({ filePath: "local-temp-path" });
+```
+
+Use `filePath` / `savedPath`, not old `tempFilePath` helpers.
+
 ### Media Picker: Current Shape
 
 ```ts

@@ -11,10 +11,12 @@ Requires user permission and app approval for production.
 ```ts
 import { getLocation } from "zmp-sdk/apis";
 
-const { latitude, longitude, accuracy } = await getLocation({});
+const { token } = await getLocation();
+// Send token to your backend immediately.
+// Backend exchanges it with Zalo Open API to retrieve coordinates.
 ```
 
-Request only when location is essential. Provide fallback manual address input.
+Do **not** expect direct `{ latitude, longitude }` from current docs. Request only when location is essential, explain the purpose before asking, and provide fallback manual address input. Location tokens are single-use and short-lived.
 
 ## Camera
 
@@ -52,13 +54,13 @@ Camera context methods in current docs include:
 ```ts
 import { requestCameraPermission, checkZaloCameraPermission } from "zmp-sdk/apis";
 
-const status = await checkZaloCameraPermission({});
-if (!status?.granted) {
+const { userAllow } = await checkZaloCameraPermission({});
+if (!userAllow) {
   await requestCameraPermission({});
 }
 ```
 
-Verify exact return shape in installed `zmp-sdk` types.
+Current docs return `userAllow`, not `granted`. Verify installed `zmp-sdk` types when supporting old package versions.
 
 ## File & Media
 
@@ -69,7 +71,7 @@ Legacy/simple image picker.
 ```ts
 import { chooseImage } from "zmp-sdk/apis";
 
-const { tempFilePaths } = await chooseImage({
+const { filePaths, tempFiles } = await chooseImage({
   count: 9,
   sourceType: ["album", "camera"]
 });
@@ -77,7 +79,7 @@ const { tempFilePaths } = await chooseImage({
 
 ### openMediaPicker: Current Shape
 
-Current docs use `maxSelectItem` and return `{ data }`.
+Current docs use `maxSelectItem`, numeric `compressLevel`, and return `{ data }`.
 
 ```ts
 import { openMediaPicker } from "zmp-sdk/apis";
@@ -86,7 +88,7 @@ const { data } = await openMediaPicker({
   type: "photo",
   maxSelectItem: 5,
   serverUploadUrl: "https://example.com/upload",
-  compressLevel: "medium"
+  compressLevel: 2
 });
 ```
 
@@ -100,7 +102,7 @@ Common `type` values in current docs:
 - `zcamera_video`
 - `zcamera_scan`
 
-Avoid outdated examples using `type: "image"`, `maxSelection`, or `{ files }` unless project package types prove compatibility.
+Avoid outdated examples using `type: "image"`, `maxSelection`, string compression values, or `{ files }` unless project package types prove compatibility. `compressLevel` is numeric: `0` original/no compression, `1` low, `2` medium, `3` high.
 
 Official docs: https://miniapp.zaloplatforms.com/documents/api/openMediaPicker/
 
@@ -169,10 +171,11 @@ if (nfc?.available) {
 ```ts
 import { getNetworkType, onNetworkStatusChange } from "zmp-sdk/apis";
 
-const { networkType } = await getNetworkType({});
+const { networkType } = await getNetworkType();
+// networkType: "none" | "wifi" | "cellular" | "unknown"
 
 onNetworkStatusChange((status) => {
-  console.log(status);
+  console.log(status.networkType);
 });
 ```
 
